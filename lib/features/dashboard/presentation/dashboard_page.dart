@@ -12,6 +12,9 @@ import '../../prediction_ai/data/prediction_repository.dart';
 import '../../prediction_ai/data/ai_prediction_model.dart';
 import '../../prediction_ai/presentation/risk_factors_widget.dart';
 
+import '../../../core/services/notification_service.dart';
+
+
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
@@ -94,6 +97,21 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       ],
                     ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  /// -------------------------
+                  /// TEST NOTIFIKASI
+                  /// -------------------------
+                  ElevatedButton(
+                    onPressed: () {
+                      Notifikasi.show(
+                        title: "Percobaan",
+                        body: "Notifikasi berhasil!",
+                      );
+                    },
+                    child: const Text("Test Notifikasi"),
                   ),
 
                   const SizedBox(height: 20),

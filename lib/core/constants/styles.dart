@@ -18,4 +18,11 @@ class AppStyles {
     fontSize: 14,
     color: AppColors.text,
   );
+
+   static const caption = TextStyle(
+    fontSize: 12,
+    color: AppColors.textSecondary, // atau Colors.grey
+  );
 }
+
+

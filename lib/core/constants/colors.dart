@@ -8,5 +8,7 @@ class AppColors {
 
   static const background = Color(0xFFF7F9FC);
   static const text = Color(0xFF333333);
-   static const card = Colors.white; 
+  static const card = Colors.white;
+  static const textSecondary = Color(0xFF888888);
 }
+  
