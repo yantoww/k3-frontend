@@ -14,6 +14,7 @@ import '../../prediction_ai/presentation/risk_factors_widget.dart';
 
 import '../../../core/services/notification_service.dart';
 
+import '../../solutions/presentation/solution_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -199,6 +200,22 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
 
                   const SizedBox(height: 12),
+
+                  /// -------------------------
+                  /// BUTTON NAVIGASI SOLUSI
+                  /// -------------------------
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SolutionPage(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.lightbulb),
+                    label: const Text("Lihat Rekomendasi Solusi"),
+                  ),
                 ],
               );
             },
