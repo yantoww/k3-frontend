@@ -10,14 +10,9 @@ import '../data/dashboard_model.dart';
 import 'risk_meter_widget.dart';
 import 'risk_trend_chart.dart';
 
-import '../../prediction_ai/data/prediction_repository.dart';
-import '../../prediction_ai/data/ai_prediction_model.dart';
-import '../../prediction_ai/presentation/risk_factors_widget.dart';
-
 import '../../../core/services/notification_service.dart';
 import '../../solutions/presentation/solution_page.dart';
 import '../../solutions/presentation/risk_form_page.dart';
-
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -30,12 +25,8 @@ class _DashboardPageState extends State<DashboardPage> {
   late final DashboardRepository _repo;
   late Future<DashboardModel> _future;
 
-  late final PredictionRepository _predictionRepo;
-  late Future<AiPredictionModel> _predictionFuture;
-
   late final TrendRepository _trendRepository;
   late Future<List<TrendModel>> _trendFuture;
-
 
   @override
   void initState() {
@@ -45,10 +36,6 @@ class _DashboardPageState extends State<DashboardPage> {
     _repo = DashboardRepository();
     _future = _repo.fetchDashboard();
 
-    // AI Prediction
-    _predictionRepo = PredictionRepository();
-    _predictionFuture = _predictionRepo.fetchPrediction();
-
     _trendRepository = TrendRepository();
     _trendFuture = _trendRepository.fetchDailyTrend();
   }
@@ -56,7 +43,6 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> _refresh() async {
     setState(() {
       _future = _repo.fetchDashboard();
-      _predictionFuture = _predictionRepo.fetchPrediction();
       _trendFuture = _trendRepository.fetchDailyTrend();
     });
   }
@@ -69,9 +55,9 @@ class _DashboardPageState extends State<DashboardPage> {
         title: const Text('Dashboard Risiko'),
         backgroundColor: Colors.indigoAccent,
         titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
         ),
       ),
       body: RefreshIndicator(
@@ -111,10 +97,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 12),
-                        Text(
-                          "Skor Risiko",
-                          style: AppStyles.title,
-                        ),
+                        Text("Skor Risiko", style: AppStyles.title),
                         const SizedBox(height: 12),
                         // Use the RiskMeterWidget
                         RiskMeterWidget(
@@ -206,7 +189,6 @@ class _DashboardPageState extends State<DashboardPage> {
                   //     );
                   //   },
                   // ),
-
                   FutureBuilder<List<TrendModel>>(
                     future: _trendFuture,
                     builder: (context, snapshot) {
@@ -215,7 +197,9 @@ class _DashboardPageState extends State<DashboardPage> {
                           child: SizedBox(
                             height: 160,
                             child: Center(
-                              child: CircularProgressIndicator(color: AppColors.primary),
+                              child: CircularProgressIndicator(
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
                         );
@@ -223,32 +207,39 @@ class _DashboardPageState extends State<DashboardPage> {
                         return AppCard(
                           child: SizedBox(
                             height: 160,
-                            child: Center(child: Text('Gagal memuat trend', style: AppStyles.body)),
+                            child: Center(
+                              child: Text(
+                                'Gagal memuat trend',
+                                style: AppStyles.body,
+                              ),
+                            ),
                           ),
                         );
                       }
 
                       final trendData = snapshot.data!;
                       return AppCard(
-
                         child: Column(
                           children: [
-                            Text("Tingkat Resiko Minggu Ini",
-                                style: TextStyle(fontSize: 18,
-                                    fontWeight: FontWeight.bold)
+                            Text(
+                              "Tingkat Resiko Minggu Ini",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            RiskTrendChart(
-                              data: trendData,
-                              height: 160,
-                            ),
+                            RiskTrendChart(data: trendData, height: 160),
                           ],
-                        )
+                        ),
                       );
                     },
                   ),
+
                   /// -------------------------
                   /// BUTTON NAVIGASI SOLUSI
                   /// -------------------------
+                  ///
+                  const SizedBox(height: 30),
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -258,8 +249,23 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       );
                     },
-                    icon: const Icon(Icons.lightbulb),
+                    icon: const Icon(Icons.lightbulb_outline, size: 22),
                     label: const Text("Lihat Rekomendasi Solusi"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.indigoAccent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 20,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      textStyle: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ],
               );
