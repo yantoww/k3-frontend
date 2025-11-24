@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class ApiService {
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: "http://localhost:8000", // ganti sesuai backend Flask
+    baseUrl: "http://10.0.2.2:5000", // emulator Android
     connectTimeout: Duration(seconds: 5),
     receiveTimeout: Duration(seconds: 5),
   ));

@@ -7,32 +7,37 @@ class DashboardRepository {
 
   DashboardRepository({ApiService? api}) : _api = api ?? ApiService();
 
-  /// Fetch dashboard data from backend.
-  /// Expected endpoint returns something like:
-  /// {
-  ///   "risk_percent": 62,
-  ///   "daily_trend": [{"label":"2025-11-15","value":55}, ...]
-  /// }
   Future<DashboardModel> fetchDashboard() async {
-  try {
-    final Response resp = await _api.get('/api/risk/dashboard');
+    try {
+      final Response resp = await _api.post(
+        '/api/calculate',
+        {
+          "employee_id": "E123",
+          "location_area": "Warehouse 1",
+          "prob_input": "medium",
+          "sev_input": "high",
+          "comp_input": "low"
+        },
+      );
 
-    if (resp.statusCode == 200 && resp.data != null) {
-      final Map<String, dynamic> data =
-          Map<String, dynamic>.from(resp.data ?? {});
-      return DashboardModel.fromJson(data);
-    } else {
-      return _mock();
+      if (resp.statusCode != null && resp.statusCode! >= 200 && resp.statusCode! < 300 && resp.data != null) {
+        final Map<String, dynamic> data = Map<String, dynamic>.from(resp.data);
+
+        final int riskScore = (data['score'] as num?)?.toInt() ?? 0;
+
+
+        return DashboardModel(riskScore: riskScore);
+      } else {
+        print('Unexpected response: ${resp.statusCode}, ${resp.data}');
+        return DashboardModel(riskScore: 0,);
+      }
+    } catch (e, stacktrace) {
+      print('Error fetching dashboard: $e');
+      print(stacktrace);
+      return DashboardModel(riskScore: 0, );
     }
-  } catch (e) {
-    return _mock();
   }
 }
 
 
-  DashboardModel _mock() {
-    // Example fallback data for frontend development
-    final trend = List.generate(7, (i) => TrendPoint(label: 'D${i+1}', value: 40 + i * 4));
-    return DashboardModel(riskPercent: 58, dailyTrend: trend);
-  }
-}
+
