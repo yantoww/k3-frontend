@@ -91,6 +91,7 @@ class _RiskFormPageState extends State<RiskFormPage> {
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
                   value: probInput,
+                  dropdownColor: Colors.white,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -108,6 +109,7 @@ class _RiskFormPageState extends State<RiskFormPage> {
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
                   value: sevInput,
+                  dropdownColor: Colors.white,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -125,6 +127,7 @@ class _RiskFormPageState extends State<RiskFormPage> {
                 const SizedBox(height: 6),
                 DropdownButtonFormField<String>(
                   value: compInput,
+                  dropdownColor: Colors.white,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
